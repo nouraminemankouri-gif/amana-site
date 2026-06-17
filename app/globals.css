@@ -1,0 +1,314 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivoire: #FAF7F2;
+  --color-ivoire-deep: #F2EDE3;
+  --color-encre: #1F2A2A;
+  --color-encre-soft: #2D3838;
+  --color-sauge: #5A6F5A;
+  --color-sauge-pale: #8A9B89;
+  --color-or: #A98C5C;
+  --color-or-pale: #C9B591;
+
+  --font-display: "Cormorant Garamond", "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-arabic: "Amiri", "Scheherazade New", serif;
+
+  --ease-amana: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ----- Auto-hosted via Google Fonts CDN with display swap ----- */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/cormorantgaramond/v16/co3bmX5slCNuHLi8bLeY9MK7whWMhyjornFLsS6V7w.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/cormorantgaramond/v16/co3WmX5slCNuHLi8bLeY9MK7whWMhyjQAllvuQWJ5hbb__g.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/inter/v19/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Amiri";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/amiri/v27/J7aRnpd8CGxBHpUrtLYS6pNLAjk.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Amiri";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/amiri/v27/J7acnpd8CGxBHp2VkZY4xJ9CGyAa.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light;
+  --bg: #FAF7F2;
+  --ink: #1F2A2A;
+  --sauge: #5A6F5A;
+  --or: #A98C5C;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  background: var(--bg);
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+  line-height: 1.6;
+}
+
+::selection {
+  background: rgba(90, 111, 90, 0.18);
+  color: var(--ink);
+}
+
+.font-display { font-family: var(--font-display); }
+.font-sans-amana { font-family: var(--font-sans); }
+.font-arabic { font-family: var(--font-arabic); }
+
+.ar { font-family: var(--font-arabic); font-weight: 400; letter-spacing: 0; }
+
+/* Reveal helpers */
+.amana-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 700ms var(--ease-amana), transform 700ms var(--ease-amana);
+  will-change: opacity, transform;
+}
+.amana-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Underline link draw */
+.link-underline {
+  position: relative;
+  display: inline-block;
+  color: inherit;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 500ms var(--ease-amana);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+.link-underline:not(:hover):not(:focus-visible)::after {
+  transform-origin: right center;
+}
+
+/* Card hover */
+.amana-card {
+  transition: transform 600ms var(--ease-amana), border-color 600ms var(--ease-amana), background-color 600ms var(--ease-amana);
+}
+.amana-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--sauge);
+}
+
+/* Quote rule that draws */
+.quote-rule {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.quote-rule::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4em;
+  width: 2px;
+  height: 0;
+  background: var(--sauge);
+  transition: height 1200ms var(--ease-amana);
+}
+.quote-rule.is-visible::before {
+  height: calc(100% - 0.8em);
+}
+
+/* Arabic breathing */
+@keyframes amanaBreath {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}
+.ar-breathe {
+  display: inline-block;
+}
+.amana-card:hover .ar-breathe {
+  animation: amanaBreath 4s ease-in-out infinite;
+}
+
+/* Hero typography stagger */
+@keyframes amanaFadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.hero-word {
+  display: inline-block;
+  opacity: 0;
+  animation: amanaFadeUp 1200ms var(--ease-amana) forwards;
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid var(--sauge);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* prose */
+.prose-amana p { margin: 1.1em 0; }
+.prose-amana p + p { margin-top: 1.4em; }
+.prose-amana strong { color: var(--encre); font-weight: 600; }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .amana-reveal { opacity: 1; transform: none; }
+  .quote-rule::before { height: calc(100% - 0.8em); }
+}
+
+/* View transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 600ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-old(root) {
+  animation-name: fade-slide-out;
+}
+::view-transition-new(root) {
+  animation-name: fade-slide-in;
+}
+@keyframes fade-slide-out {
+  to { opacity: 0; transform: translateY(-8px); }
+}
+@keyframes fade-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+
+/* Grain overlay for warmth */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.16 0 0 0 0 0.16 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  background-size: 240px 240px;
+}
+
+/* react-day-picker styling, AMĀNA */
+.amana-daypicker .rdp-root {
+  --rdp-accent-color: var(--sauge);
+  --rdp-background-color: rgba(90, 111, 90, 0.08);
+  --rdp-day-height: 40px;
+  --rdp-day-width: 40px;
+  --rdp-day_button-height: 38px;
+  --rdp-day_button-width: 38px;
+  --rdp-day_button-border-radius: 0;
+  --rdp-selected-border: 1px solid var(--sauge);
+  --rdp-today-color: var(--or);
+  font-family: var(--font-sans);
+  color: var(--ink);
+}
+.amana-daypicker .rdp-month_caption {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  text-transform: capitalize;
+}
+.amana-daypicker .rdp-weekday {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--or);
+  opacity: 0.8;
+}
+.amana-daypicker .rdp-day_button {
+  font-size: 0.92rem;
+  border-radius: 0;
+  transition: background-color 300ms var(--ease-amana), color 300ms var(--ease-amana);
+}
+.amana-daypicker .rdp-day_button:hover:not([disabled]) {
+  background: rgba(90, 111, 90, 0.1);
+  color: var(--sauge);
+}
+.amana-daypicker .rdp-selected .rdp-day_button {
+  background: var(--ink);
+  color: var(--bg);
+}
+.amana-daypicker .rdp-disabled {
+  color: rgba(31, 42, 42, 0.25);
+}
+.amana-daypicker .rdp-today:not(.rdp-selected) .rdp-day_button {
+  color: var(--or);
+  font-weight: 600;
+}
+.amana-daypicker .rdp-button_previous,
+.amana-daypicker .rdp-button_next {
+  color: var(--ink);
+}
+.amana-daypicker .rdp-button_previous:hover,
+.amana-daypicker .rdp-button_next:hover {
+  color: var(--sauge);
+}
+
+/* Decorative ornament */
+.ornament-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--or);
+}
+.ornament-line::before,
+.ornament-line::after {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.7;
+}
